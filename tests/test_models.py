@@ -1,4 +1,3 @@
-
 """Tests for the ShowRecord model."""
 
 import unittest
@@ -11,13 +10,15 @@ class TestShowRecord(unittest.TestCase):
 
     def test_cleans_valid_record(self):
         """Clean whitespace and invalid genre entries."""
-        show = ShowRecord({
-            "name": "  Demo Show  ",
-            "language": " English ",
-            "genres": ["Drama", None, "", " Comedy "],
-            "premiered": "2020-01-15",
-            "rating": {"average": 8.2},
-        })
+        show = ShowRecord(
+            {
+                "name": "  Demo Show  ",
+                "language": " English ",
+                "genres": ["Drama", None, "", " Comedy "],
+                "premiered": "2020-01-15",
+                "rating": {"average": 8.2},
+            }
+        )
 
         self.assertEqual(show.name, "Demo Show")
         self.assertEqual(show.language, "English")

@@ -1,4 +1,3 @@
-
 """Run the TVMaze summary application."""
 
 from tvsummary.config import OUTPUT_PATH

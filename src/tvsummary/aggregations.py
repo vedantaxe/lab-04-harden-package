@@ -1,4 +1,3 @@
-
 """Aggregation classes for show records."""
 
 

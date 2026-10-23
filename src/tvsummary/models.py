@@ -21,7 +21,9 @@ class ShowRecord:
         """Return a list containing only non-empty genre strings."""
         if not isinstance(value, list):
             return []
-        return [item.strip() for item in value if isinstance(item, str) and item.strip()]
+        return [
+            item.strip() for item in value if isinstance(item, str) and item.strip()
+        ]
 
     @staticmethod
     def _clean_date(value):

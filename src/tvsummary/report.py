@@ -1,13 +1,12 @@
-
 """Build and write the TVMaze summary report."""
 
 import json
 from pathlib import Path
 
 from tvsummary.aggregations import (
-    ShowsPerGenre,
     AverageRatingByLanguage,
     ShowsPerDecade,
+    ShowsPerGenre,
 )
 
 

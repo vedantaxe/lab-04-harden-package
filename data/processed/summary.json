@@ -1,6 +1,4 @@
 {
-  "source_url": "https://api.tvmaze.com/shows?page=0",
-  "record_count": 240,
   "shows_per_genre": {
     "Action": 55,
     "Adventure": 23,
@@ -34,5 +32,57 @@
     "1990": 8,
     "2000": 51,
     "2010": 179
-  }
+  },
+  "featured_shows": [
+    {
+      "name": "How I Met Your Mother",
+      "language": "English",
+      "rating": 7.8
+    },
+    {
+      "name": "American Horror Story",
+      "language": "English",
+      "rating": 7.4
+    },
+    {
+      "name": "Homeland",
+      "language": "English",
+      "rating": 8.2
+    },
+    {
+      "name": "The Fosters",
+      "language": "English",
+      "rating": 7.5
+    },
+    {
+      "name": "The Walking Dead",
+      "language": "English",
+      "rating": 7.9
+    },
+    {
+      "name": "Bones",
+      "language": "English",
+      "rating": 8.1
+    },
+    {
+      "name": "NCIS",
+      "language": "English",
+      "rating": 7.9
+    },
+    {
+      "name": "Z Nation",
+      "language": "English",
+      "rating": 7.2
+    },
+    {
+      "name": "Da Vinci's Demons",
+      "language": "English",
+      "rating": 8
+    },
+    {
+      "name": "Californication",
+      "language": "English",
+      "rating": 7.9
+    }
+  ]
 }

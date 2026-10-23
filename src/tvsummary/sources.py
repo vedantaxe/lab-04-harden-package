@@ -2,21 +2,18 @@
 
 import requests
 
-from tvsummary.config import SOURCE_URL, TIMEOUT
+from tvsummary.config import AppConfig
+from tvsummary.errors import DataSourceError, DataValidationError
 from tvsummary.models import ShowRecord
 
 
 class TVMazeSource:
     """Retrieve and clean show records from the TVMaze API."""
 
-    def __init__(
-        self,
-        url: str = SOURCE_URL,
-        timeout: float = TIMEOUT,
-    ) -> None:
-        """Set the API URL and request timeout."""
-        self.url = url
-        self.timeout = timeout
+    def __init__(self, config: AppConfig) -> None:
+        """Set the API URL and request timeout from configuration."""
+        self.url = config.source_url
+        self.timeout = config.timeout
 
     def fetch_records(self) -> list[ShowRecord]:
         """Download records and return them as ShowRecord objects."""
@@ -25,9 +22,16 @@ class TVMazeSource:
             response.raise_for_status()
             data = response.json()
         except requests.RequestException as exc:
-            raise RuntimeError(f"Could not download records: {exc}") from exc
+            raise DataSourceError(f"Could not download records: {exc}") from exc
+        except ValueError as exc:
+            raise DataSourceError("TVMaze returned invalid JSON.") from exc
 
         if not isinstance(data, list):
-            raise TypeError("Downloaded data is not a list of records.")
+            raise DataValidationError("Downloaded data is not a list of records.")
 
-        return [ShowRecord(item) for item in data]
+        try:
+            return [ShowRecord(item) for item in data]
+        except (TypeError, ValueError, KeyError) as exc:
+            raise DataValidationError(
+                "Downloaded records contain invalid data."
+            ) from exc

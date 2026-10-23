@@ -1,21 +1,31 @@
 """Aggregation classes for show records."""
 
+from abc import ABC, abstractmethod
+from typing import ClassVar, Generic, TypeVar
 
-class Aggregation:
+from tvsummary.models import ShowRecord
+
+ResultT = TypeVar("ResultT")
+
+
+class Aggregation(ABC, Generic[ResultT]):
     """Base class for aggregations."""
 
-    def aggregate(self, records):
+    key: ClassVar[str]
+
+    @abstractmethod
+    def aggregate(self, records: list[ShowRecord]) -> ResultT:
         """Calculate a summary from records."""
         raise NotImplementedError("Subclasses must implement aggregate().")
 
 
-class ShowsPerGenre(Aggregation):
+class ShowsPerGenre(Aggregation[dict[str, int]]):
     """Count shows belonging to each genre."""
 
     key = "shows_per_genre"
 
-    def aggregate(self, records):
-        counts = {}
+    def aggregate(self, records: list[ShowRecord]) -> dict[str, int]:
+        counts: dict[str, int] = {}
 
         for show in records:
             for genre in show.genres:
@@ -24,13 +34,13 @@ class ShowsPerGenre(Aggregation):
         return dict(sorted(counts.items()))
 
 
-class AverageRatingByLanguage(Aggregation):
+class AverageRatingByLanguage(Aggregation[dict[str, float]]):
     """Calculate average ratings grouped by language."""
 
     key = "average_rating_by_language"
 
-    def aggregate(self, records):
-        ratings = {}
+    def aggregate(self, records: list[ShowRecord]) -> dict[str, float]:
+        ratings: dict[str, list[int | float]] = {}
 
         for show in records:
             if show.language is None or show.rating is None:
@@ -44,13 +54,13 @@ class AverageRatingByLanguage(Aggregation):
         }
 
 
-class ShowsPerDecade(Aggregation):
+class ShowsPerDecade(Aggregation[dict[int, int]]):
     """Count shows by premiere decade."""
 
     key = "shows_per_decade"
 
-    def aggregate(self, records):
-        counts = {}
+    def aggregate(self, records: list[ShowRecord]) -> dict[int, int]:
+        counts: dict[int, int] = {}
 
         for show in records:
             if show.premiered is None:
